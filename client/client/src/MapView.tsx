@@ -1,12 +1,18 @@
 import ReactDOM from 'react-dom';
 import React, { useEffect, useRef } from 'react';
 import * as L from 'leaflet';
+import styled from 'styled-components';
 
 import { Vehicle } from './types';
 
 interface MapViewProps {
   vehicles: Vehicle[];
 }
+
+const MapContainer = styled.div`
+  flex-basis: 70%;
+  height: 100%auto;
+`;
 
 const MapView: React.FC<MapViewProps> = ({ vehicles }) => {
   const map = useRef<L.Map>();
@@ -48,7 +54,7 @@ const MapView: React.FC<MapViewProps> = ({ vehicles }) => {
     }).addTo(map.current);
   }, []);
 
-  return <div style={{ width: '100vh', height: '100vh' }} id="mapId" />;
+  return <MapContainer id="mapId" />;
 };
 
 export default MapView;
