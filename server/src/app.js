@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 const { spawnData, getData } = require('./data');
+const { setupIntervalDataUpdates } = require('./updates');
 
 const PORT = 8080;
 
@@ -19,6 +20,8 @@ const IOServer = socketIO(server, {
 
 IOServer.on('connection', (socket) => {
   socket.emit('initialData', getData());
+
+  setupIntervalDataUpdates(socket);
 });
 
 server.listen(PORT, () => console.log('SERVER IS RUNNING'));

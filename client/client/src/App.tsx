@@ -51,6 +51,20 @@ function App() {
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on('initialData', (data) => setVehicles(data));
+
+    socket.on('positionUpdates', (updates: VehicleResponse) => {
+      setVehicles((vehiclesInState) => {
+        if (!vehiclesInState) {
+          return {};
+        }
+
+        Object.keys(updates).forEach((vehicleId) => {
+          vehiclesInState[vehicleId] = updates[vehicleId];
+        });
+
+        return { ...vehiclesInState };
+      });
+    });
   }, []);
 
   console.log({ searchTerm });
